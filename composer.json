@@ -1,0 +1,20 @@
+{
+    "name": "joshuaestes/vagrant-opencart",
+    "description": "Vagrant box that setups an OpenCart install for testing purposes",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Joshua Estes",
+            "email": "Josh@Bitpay.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "phing/phing": "*"
+    },
+    "require-dev": {
+    },
+    "config": {
+        "bin-dir": "bin"
+    }
+}
