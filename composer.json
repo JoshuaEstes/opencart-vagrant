@@ -1,5 +1,5 @@
 {
-    "name": "joshuaestes/vagrant-opencart",
+    "name": "joshuaestes/opencart-vagrant",
     "description": "Vagrant box that setups an OpenCart install for testing purposes",
     "license": "MIT",
     "authors": [

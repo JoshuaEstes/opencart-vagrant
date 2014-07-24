@@ -1,4 +1,4 @@
-joshuaestes/vagrant-opencart
+joshuaestes/opencart-vagrant
 ============================
 
 This repository allows you to setup an OpenCart install using
@@ -9,6 +9,8 @@ vagrant for development and testing.
 ```bash
 git clone --recursive https://github.com/JoshuaEstes/vagrant-opencart.git
 cd vagrant-opencart
+curl -sS https://getcomposer.org/installer | php
+php composer.phar install
 vagrant up
 ```
 
