@@ -119,7 +119,7 @@ file { '/var/www/opencart/web/upload/config.php':
 }
 
 file { '/var/www/opencart/web/upload/admin/config.php':
-  ensure  => directory,
+  ensure  => file,
   mode    => 0777,
-  require => Exec['copy config'],
+  require => Exec['copy admin config'],
 }
