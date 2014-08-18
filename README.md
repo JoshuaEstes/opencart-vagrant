@@ -4,6 +4,11 @@ joshuaestes/opencart-vagrant
 This repository allows you to setup an OpenCart install using
 vagrant for development and testing.
 
+# Requirements
+
+* [Virtual Box](https://www.virtualbox.org/)
+* [Vagrant](http://www.vagrantup.com/)
+
 # Installation
 
 ```bash
