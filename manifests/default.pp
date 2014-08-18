@@ -48,7 +48,7 @@ $vhost = "
 "
 
 file { '/etc/apache2/sites-enabled/000-default.conf':
-	content => "$vhost",
+	  content => "$vhost",
     require => Package['apache2'],
     notify  => Service['apache2'],
 }
@@ -66,5 +66,62 @@ exec { 'enable mcrypt':
 
 exec { 'create database':
     command => '/usr/bin/mysqladmin create opencart -u root',
+    creates => '/var/lib/mysql/opencart',
     require => Package['mysql-server'],
+}
+
+exec { 'copy config':
+  command => '/bin/cp config-dist.php config.php',
+  cwd     => '/var/www/opencart/web/upload',
+  creates => '/var/www/opencart/web/upload/config.php',
+  notify  => Service['apache2'],
+}
+
+exec { 'copy admin config':
+  command => '/bin/cp config-dist.php config.php',
+  cwd     => '/var/www/opencart/web/upload/admin',
+  creates => '/var/www/opencart/web/upload/admin/config.php',
+  notify  => Service['apache2'],
+}
+
+file { '/var/www/opencart/web/upload/system/cache/':
+  ensure => directory,
+  mode   => 0777,
+}
+
+file { '/var/www/opencart/web/upload/system/logs/':
+  ensure => directory,
+  mode   => 0777,
+}
+
+file { '/var/www/opencart/web/upload/system/download/':
+  ensure => directory,
+  mode   => 0777,
+}
+
+file { '/var/www/opencart/web/upload/image/':
+  ensure => directory,
+  mode   => 0777,
+}
+
+file { '/var/www/opencart/web/upload/image/cache/':
+  ensure => directory,
+  mode   => 0777,
+}
+
+file { '/var/www/opencart/web/upload/image/catalog/':
+  ensure => directory,
+  mode   => 0777,
+}
+
+file { '/var/www/opencart/web/upload/config.php':
+  ensure  => file,
+  mode    => 0777,
+  require => Exec['copy config'],
+}
+
+file { '/var/www/opencart/web/upload/admin/config.php':
+  ensure  => directory,
+  mode    => 0777,
+  require => Exec['copy config'],
 }
