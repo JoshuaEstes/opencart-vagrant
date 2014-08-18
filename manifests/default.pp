@@ -73,14 +73,12 @@ exec { 'create database':
 exec { 'copy config':
   command => '/bin/cp config-dist.php config.php',
   cwd     => '/var/www/opencart/web/upload',
-  creates => '/var/www/opencart/web/upload/config.php',
   notify  => Service['apache2'],
 }
 
 exec { 'copy admin config':
   command => '/bin/cp config-dist.php config.php',
   cwd     => '/var/www/opencart/web/upload/admin',
-  creates => '/var/www/opencart/web/upload/admin/config.php',
   notify  => Service['apache2'],
 }
 

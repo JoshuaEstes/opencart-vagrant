@@ -19,7 +19,8 @@ php composer.phar install
 vagrant up
 ```
 
-Open your browser to 127.0.0.1:8080
+Open your browser to 127.0.0.1:8080 and go through the OpenCart installation
+wizard.
 
 # Configuration
 
