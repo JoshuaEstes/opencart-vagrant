@@ -37,15 +37,6 @@ package { $phpPackages:
     notify => Service['apache2']
 }
 
-define apache::loadmodule () {
-  exec { "/usr/sbin/a2enmod $name" :
-    unless => "/bin/readlink -e /etc/apache2/mods-enabled/${name}.load",
-    notify => Service[apache2]
-  }
-}
-
-apache::loadmodule{"rewrite": }
-
 $vhost = "
 <VirtualHost *:80>
 	ServerAdmin webmaster@localhost
@@ -72,6 +63,18 @@ exec { 'enable mcrypt':
     require => Package['php5-mcrypt'],
     notify  => Service['apache2'],
 }
+
+define apache::loadmodule () {
+  exec { "/usr/sbin/a2enmod $name" :
+    require => Package['apache2'],
+    before => Service[apache2],
+    command => "/usr/sbin/a2enmod $name",
+    unless => "/bin/readlink -e /etc/apache2/mods-enabled/${name}.load",
+    notify => Service[apache2]
+  }
+}
+
+apache::loadmodule{"rewrite": }
 
 exec { 'copy config':
   command => '/bin/cp config-dist.php config.php',
