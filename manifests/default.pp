@@ -75,12 +75,14 @@ exec { 'enable mcrypt':
 
 exec { 'copy config':
   command => '/bin/cp config-dist.php config.php',
+  creates => '/var/www/opencart/web/upload/config.php',
   cwd     => '/var/www/opencart/web/upload',
   notify  => Service['apache2'],
 }
 
 exec { 'copy admin config':
   command => '/bin/cp config-dist.php config.php',
+  creates => '/var/www/opencart/web/upload/admin/config.php',
   cwd     => '/var/www/opencart/web/upload/admin',
   notify  => Service['apache2'],
 }
