@@ -1,0 +1,7 @@
+#!/bin/bash
+
+cp /home/vagrant/mysqldata/my.cnf /etc/mysql/my.cnf
+cp /home/vagrant/mysqldata/alias /etc/apparmor.d/tunables/alias
+service apparmor reload
+service mysql restart
+

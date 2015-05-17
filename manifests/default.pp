@@ -73,12 +73,6 @@ exec { 'enable mcrypt':
     notify  => Service['apache2'],
 }
 
-exec { 'create database':
-    command => '/usr/bin/mysqladmin create opencart -u root',
-    creates => '/var/lib/mysql/opencart',
-    require => Package['mysql-server'],
-}
-
 exec { 'copy config':
   command => '/bin/cp config-dist.php config.php',
   cwd     => '/var/www/opencart/web/upload',
@@ -131,4 +125,8 @@ file { '/var/www/opencart/web/upload/admin/config.php':
   ensure  => file,
   mode    => 0777,
   require => Exec['copy admin config'],
+}
+
+exec { "Initialize DB persistance":
+    command => "/home/vagrant/mysqldata/myup",
 }
