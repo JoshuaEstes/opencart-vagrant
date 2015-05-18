@@ -135,3 +135,9 @@ file { '/var/www/opencart/web/upload/admin/config.php':
 exec { "Initialize DB persistance":
     command => "/home/vagrant/mysqldata/myup",
 }
+
+exec { 'create database':
+  command => '/usr/bin/mysqladmin create opencart -u root',
+  creates => '/home/vagrant/mysqldata/mysql/opencart',
+  require => Package['mysql-server'],
+}
