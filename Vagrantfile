@@ -8,6 +8,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.box = "ubuntu/trusty64"
   config.vm.network "forwarded_port", guest: 80, host: 8080
   config.vm.synced_folder ".", "/var/www/opencart", type: "nfs"
+  config.vm.synced_folder "./db", "/home/vagrant/mysqldata", type:"nfs"
   config.vm.network "private_network", ip: "192.168.50.4"
 
   config.vm.provider "virtualbox" do |vb|

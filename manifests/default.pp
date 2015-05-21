@@ -37,15 +37,6 @@ package { $phpPackages:
     notify => Service['apache2']
 }
 
-define apache::loadmodule () {
-  exec { "/usr/sbin/a2enmod $name" :
-    unless => "/bin/readlink -e /etc/apache2/mods-enabled/${name}.load",
-    notify => Service[apache2]
-  }
-}
-
-apache::loadmodule{"rewrite": }
-
 $vhost = "
 <VirtualHost *:80>
 	ServerAdmin webmaster@localhost
@@ -73,20 +64,28 @@ exec { 'enable mcrypt':
     notify  => Service['apache2'],
 }
 
-exec { 'create database':
-    command => '/usr/bin/mysqladmin create opencart -u root',
-    creates => '/var/lib/mysql/opencart',
-    require => Package['mysql-server'],
+define apache::loadmodule () {
+  exec { "/usr/sbin/a2enmod $name" :
+    require => Package['apache2'],
+    before => Service[apache2],
+    command => "/usr/sbin/a2enmod $name",
+    unless => "/bin/readlink -e /etc/apache2/mods-enabled/${name}.load",
+    notify => Service[apache2]
+  }
 }
+
+apache::loadmodule{"rewrite": }
 
 exec { 'copy config':
   command => '/bin/cp config-dist.php config.php',
+  creates => '/var/www/opencart/web/upload/config.php',
   cwd     => '/var/www/opencart/web/upload',
   notify  => Service['apache2'],
 }
 
 exec { 'copy admin config':
   command => '/bin/cp config-dist.php config.php',
+  creates => '/var/www/opencart/web/upload/admin/config.php',
   cwd     => '/var/www/opencart/web/upload/admin',
   notify  => Service['apache2'],
 }
@@ -131,4 +130,14 @@ file { '/var/www/opencart/web/upload/admin/config.php':
   ensure  => file,
   mode    => 0777,
   require => Exec['copy admin config'],
+}
+
+exec { "Initialize DB persistance":
+    command => "/home/vagrant/mysqldata/myup",
+}
+
+exec { 'create database':
+  command => '/usr/bin/mysqladmin create opencart -u root',
+  creates => '/home/vagrant/mysqldata/mysql/opencart',
+  require => Package['mysql-server'],
 }
